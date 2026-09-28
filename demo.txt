@@ -1,0 +1,8 @@
+alloc 8192
+write 0 42
+write 4096 99
+read 0
+read 4096
+dump
+free 0
+dump

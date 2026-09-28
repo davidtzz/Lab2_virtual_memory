@@ -1,0 +1,12 @@
+# Ejemplo del enunciado: dos páginas, sin reemplazos
+alloc 8192
+write 0 42
+write 4096 99
+read 0
+read 4096
+# Segundo acceso a cada página = hits
+read 0
+read 4096
+# Acceso inválido (fuera de la región): debe reportar error y seguir
+read 8192
+free 0
