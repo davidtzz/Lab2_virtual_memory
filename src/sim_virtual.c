@@ -9,6 +9,13 @@
 //modules
 #include "memory_config_traduction/memory_config.h"
 #include "memory_config_traduction/virtual_address_config.h"
+#include "virtual_memory/directory_table.h"
+#include "virtual_memory/page_table.h"
+#include "physical_memory/frame_table.h"
+#include "physical_memory/physical_memory.h"
+#include "physical_memory/tlb.h"
+#include "statistics/statistics.h"
+#include "virtual_memory_management/virtual_memory_manager.h"
 
 
 static bool is_power_of_two(uint32_t value) {
@@ -21,89 +28,6 @@ static uint64_t round_up_div(uint64_t value, uint64_t divisor) {
     }
     return (value + divisor - 1u) / divisor;
 }
-
-//page_table_entry_init
-
-//page_table_entry_allocate
-
-//page_table_entry_load
-
-//page_table_entry_record_access
-
-//page_table_entry_invalidate
-
-//page_table_create
-
-//page_table_destroy
-
-//page_table_get_entry
-
-//directory_table_create
-
-//directory_table_destroy
-
-//directory_table_get_or_create_page_table
-
-//directory_table_get_page_table
-
-//frame_table_init
-
-//frame_table_destroy
-
-//frame_table_has_free_frame
-
-//frame_table_allocate_free_frame
-
-//frame_table_map_frame
-
-//frame_table_free_frame
-
-//frame_table_get_frame_info
-
-//physical_memory_init
-
-//physical_memory_destroy
-
-//physical_memory_read_byte
-
-//physical_memory_write_byte
-
-//physical_memory_clear_range
-
-//tlb_init
-
-//tlb_lookup
-
-//tlb_insert
-
-//tlb_invalidate_vpn
-
-//stats_reset
-
-//stats_record_access
-
-//stats_record_page_fault
-
-//stats_record_tlb_hit
-
-//memory_manager_get_page_entry
-
-//memory_manager_choose_victim_frame
-
-//memory_manager_handle_page_fault
-
-//memory_manager_create
-
-//memory_manager_destroy
-
-//memory_manager_allocate
-
-//memory_manager_write
-
-//memory_manager_read
-
-//memory_manager_free
-
 
 bool sim_parse_instruction_line(const char *line, Instruction *out_instruction) {
     if (line == NULL || out_instruction == NULL) {
