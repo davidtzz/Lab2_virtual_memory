@@ -18,17 +18,6 @@
 #include "virtual_memory_management/virtual_memory_manager.h"
 
 
-static bool is_power_of_two(uint32_t value) {
-    return value != 0u && (value & (value - 1u)) == 0u;
-}
-
-static uint64_t round_up_div(uint64_t value, uint64_t divisor) {
-    if (divisor == 0u) {
-        return 0u;
-    }
-    return (value + divisor - 1u) / divisor;
-}
-
 bool sim_parse_instruction_line(const char *line, Instruction *out_instruction) {
     if (line == NULL || out_instruction == NULL) {
         return false;

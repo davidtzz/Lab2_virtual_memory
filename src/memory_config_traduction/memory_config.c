@@ -1,6 +1,13 @@
 
 #include "sim_virtual.h"
+
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+static bool is_power_of_two(uint32_t value) {
+    return value != 0u && (value & (value - 1u)) == 0u;
+}
 
 MemoryConfig memory_config_create(uint32_t page_size, uint32_t physical_memory_size) {
     MemoryConfig config = {0};
@@ -51,4 +58,3 @@ uint32_t memory_config_compute_offset_bits(uint32_t page_size) {
 uint32_t memory_config_compute_directory_index_bits(uint32_t vpn_bits) {
     return (vpn_bits + 1u) / 2u;
 }
-

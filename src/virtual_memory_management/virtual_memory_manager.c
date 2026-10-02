@@ -1,5 +1,13 @@
 #include "sim_virtual.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+static uint64_t round_up_div(uint64_t value, uint64_t divisor) {
+    if (divisor == 0u) {
+        return 0u;
+    }
+    return (value + divisor - 1u) / divisor;
+}
 
 static PageTableEntry *memory_manager_get_page_entry(MemoryManager *manager, const VirtualAddress *va) {
     if (manager == NULL || va == NULL) {
@@ -46,7 +54,7 @@ static uint32_t memory_manager_choose_victim_frame(MemoryManager *manager, const
 static void memory_manager_handle_page_fault(MemoryManager *manager, const VirtualAddress *va) {
     PageTableEntry *entry = memory_manager_get_page_entry(manager, va);
     if (entry == NULL || !entry->allocated_bit) {
-        printf(stderr, "Segmentation fault en direccion virtual %u\n", va->raw);
+        fprintf(stderr, "Segmentation fault en direccion virtual %u\n", va->raw);
         exit(1);
     }
 

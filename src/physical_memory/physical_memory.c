@@ -1,5 +1,6 @@
 #include "sim_virtual.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void physical_memory_init(PhysicalMemory *memory, uint32_t size) {
     if (memory == NULL) {

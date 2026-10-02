@@ -1,5 +1,6 @@
 #include "sim_virtual.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void page_table_entry_init(PageTableEntry *entry) {
     if (entry == NULL) {

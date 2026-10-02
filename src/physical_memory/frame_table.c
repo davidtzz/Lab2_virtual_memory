@@ -1,4 +1,5 @@
 #include "sim_virtual.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 void frame_table_init(FrameTable *table, uint32_t frame_count) {

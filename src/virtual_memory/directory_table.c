@@ -1,5 +1,6 @@
 #include "sim_virtual.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 DirectoryTable directory_table_create(uint32_t entry_count) {
     DirectoryTable directory;

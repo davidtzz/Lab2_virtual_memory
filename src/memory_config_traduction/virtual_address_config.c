@@ -1,5 +1,6 @@
 #include "sim_virtual.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 VirtualAddress virtual_address_create(uint32_t raw, const MemoryConfig *config) {
     VirtualAddress va;
