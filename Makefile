@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Iinclude
 LDFLAGS = -lm
 TARGET = sim_virtual
-SRC = src/main.c src/sim_virtual.c
+SRC = $(shell find src -type f -name "*.c" | sort)
 OBJ = $(SRC:.c=.o)
 
 all: $(TARGET)
