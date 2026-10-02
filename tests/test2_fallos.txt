@@ -1,0 +1,54 @@
+# Localidad: el programa reserva 4 paginas y trabaja repetidamente sobre ellas.
+# Esperado: solo 4 fallos de pagina (uno por pagina, la primera vez), 0 reemplazos
+# y un hit rate alto. Casi todos los accesos se resuelven en la TLB.
+alloc 16384
+write 0 0 read 0 write 4096 1 read 4096 write 8192 2 read 8192 write 12288 3 read 12288
+write 8 4 read 8 write 4104 5 read 4104 write 8200 6 read 8200 write 12296 7 read 12296
+write 16 8 read 16 write 4112 9 read 4112 write 8208 10 read 8208 write 12304 11 read 12304
+write 24 12 read 24 write 4120 13 read 4120 write 8216 14 read 8216 write 12312 15 read 12312
+write 32 16 read 32 write 4128 17 read 4128 write 8224 18 read 8224 write 12320 19 read 12320
+write 40 20 read 40 write 4136 21 read 4136 write 8232 22 read 8232 write 12328 23 read 12328
+write 48 24 read 48 write 4144 25 read 4144 write 8240 26 read 8240 write 12336 27 read 12336
+write 56 28 read 56 write 4152 29 read 4152 write 8248 30 read 8248 write 12344 31 read 12344
+write 64 32 read 64 write 4160 33 read 4160 write 8256 34 read 8256 write 12352 35 read 12352
+write 72 36 read 72 write 4168 37 read 4168 write 8264 38 read 8264 write 12360 39 read 12360
+write 80 40 read 80 write 4176 41 read 4176 write 8272 42 read 8272 write 12368 43 read 12368
+write 88 44 read 88 write 4184 45 read 4184 write 8280 46 read 8280 write 12376 47 read 12376
+write 96 48 read 96 write 4192 49 read 4192 write 8288 50 read 8288 write 12384 51 read 12384
+write 104 52 read 104 write 4200 53 read 4200 write 8296 54 read 8296 write 12392 55 read 12392
+write 112 56 read 112 write 4208 57 read 4208 write 8304 58 read 8304 write 12400 59 read 12400
+write 120 60 read 120 write 4216 61 read 4216 write 8312 62 read 8312 write 12408 63 read 12408
+write 128 64 read 128 write 4224 65 read 4224 write 8320 66 read 8320 write 12416 67 read 12416
+write 136 68 read 136 write 4232 69 read 4232 write 8328 70 read 8328 write 12424 71 read 12424
+write 144 72 read 144 write 4240 73 read 4240 write 8336 74 read 8336 write 12432 75 read 12432
+write 152 76 read 152 write 4248 77 read 4248 write 8344 78 read 8344 write 12440 79 read 12440
+write 160 80 read 160 write 4256 81 read 4256 write 8352 82 read 8352 write 12448 83 read 12448
+write 168 84 read 168 write 4264 85 read 4264 write 8360 86 read 8360 write 12456 87 read 12456
+write 176 88 read 176 write 4272 89 read 4272 write 8368 90 read 8368 write 12464 91 read 12464
+write 184 92 read 184 write 4280 93 read 4280 write 8376 94 read 8376 write 12472 95 read 12472
+write 192 96 read 192 write 4288 97 read 4288 write 8384 98 read 8384 write 12480 99 read 12480
+write 200 100 read 200 write 4296 101 read 4296 write 8392 102 read 8392 write 12488 103 read 12488
+write 208 104 read 208 write 4304 105 read 4304 write 8400 106 read 8400 write 12496 107 read 12496
+write 216 108 read 216 write 4312 109 read 4312 write 8408 110 read 8408 write 12504 111 read 12504
+write 224 112 read 224 write 4320 113 read 4320 write 8416 114 read 8416 write 12512 115 read 12512
+write 232 116 read 232 write 4328 117 read 4328 write 8424 118 read 8424 write 12520 119 read 12520
+write 240 120 read 240 write 4336 121 read 4336 write 8432 122 read 8432 write 12528 123 read 12528
+write 248 124 read 248 write 4344 125 read 4344 write 8440 126 read 8440 write 12536 127 read 12536
+write 256 128 read 256 write 4352 129 read 4352 write 8448 130 read 8448 write 12544 131 read 12544
+write 264 132 read 264 write 4360 133 read 4360 write 8456 134 read 8456 write 12552 135 read 12552
+write 272 136 read 272 write 4368 137 read 4368 write 8464 138 read 8464 write 12560 139 read 12560
+write 280 140 read 280 write 4376 141 read 4376 write 8472 142 read 8472 write 12568 143 read 12568
+write 288 144 read 288 write 4384 145 read 4384 write 8480 146 read 8480 write 12576 147 read 12576
+write 296 148 read 296 write 4392 149 read 4392 write 8488 150 read 8488 write 12584 151 read 12584
+write 304 152 read 304 write 4400 153 read 4400 write 8496 154 read 8496 write 12592 155 read 12592
+write 312 156 read 312 write 4408 157 read 4408 write 8504 158 read 8504 write 12600 159 read 12600
+write 320 160 read 320 write 4416 161 read 4416 write 8512 162 read 8512 write 12608 163 read 12608
+write 328 164 read 328 write 4424 165 read 4424 write 8520 166 read 8520 write 12616 167 read 12616
+write 336 168 read 336 write 4432 169 read 4432 write 8528 170 read 8528 write 12624 171 read 12624
+write 344 172 read 344 write 4440 173 read 4440 write 8536 174 read 8536 write 12632 175 read 12632
+write 352 176 read 352 write 4448 177 read 4448 write 8544 178 read 8544 write 12640 179 read 12640
+write 360 180 read 360 write 4456 181 read 4456 write 8552 182 read 8552 write 12648 183 read 12648
+write 368 184 read 368 write 4464 185 read 4464 write 8560 186 read 8560 write 12656 187 read 12656
+write 376 188 read 376 write 4472 189 read 4472 write 8568 190 read 8568 write 12664 191 read 12664
+write 384 192 read 384 write 4480 193 read 4480 write 8576 194 read 8576 write 12672 195 read 12672
+write 392 196 read 392 write 4488 197 read 4488 write 8584 198 read 8584 write 12680 199 read 12680

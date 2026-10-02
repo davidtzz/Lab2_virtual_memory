@@ -1,51 +1,77 @@
+#include "sim_virtual.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "cli.h"
-#include "commands.h"
-#include "config.h"
-#include "vmm.h"
+#include <string.h>
 
-int main(int argc, char **argv)
-{
-    cli_options_t options;
-    int args_result = cli_parse_args(argc, argv, &options);
-    if (args_result != 0)
-        return args_result > 0 ? 0 : 1;
+static void print_summary(const MemoryManager *manager, size_t instruction_count) {
+    printf("instrucciones=%zu\n", instruction_count);
+    printf("accesos=%llu\n", (unsigned long long)manager->stats.total_accesses);
+    printf("fallos_pagina=%llu\n", (unsigned long long)manager->stats.page_faults);
+    printf("reemplazos=%llu\n", (unsigned long long)manager->stats.replacements);
+    printf("hits_tlb=%llu\n", (unsigned long long)manager->stats.tlb_hits);
+    printf("ticks=%llu\n", (unsigned long long)manager->clock);
+    printf("policy=%s\n", manager->policy == SIM_POLICY_FIFO ? "FIFO" : "LRU");
+}
 
-    vm_config_t cfg;
-    if (config_init(&cfg, options.page_size, options.phys_bytes,
-                    options.verbose) != 0)
-        return 1;
+int main(int argc, char **argv) {
+    SimulationConfig config;
+    simulation_config_default(&config);
 
-    FILE *in = stdin;
-    if (options.path) {
-        in = fopen(options.path, "r");
-        if (!in) {
-            perror(options.path);
+    const char *file_name = NULL;
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--page-size") == 0 && i + 1 < argc) {
+            config.page_size = (uint32_t)strtoul(argv[++i], NULL, 10);
+        } else if (strcmp(argv[i], "--memory") == 0 && i + 1 < argc) {
+            config.physical_memory_size = (uint32_t)strtoul(argv[++i], NULL, 10);
+        } else if (file_name == NULL) {
+            file_name = argv[i];
+        } else {
+            simulation_config_print_usage(argv[0]);
             return 1;
         }
     }
 
-    vmm_t *vm = vmm_create(&cfg);
-    if (!vm) {
-        fprintf(stderr, "Error: no se pudo crear el simulador (sin memoria).\n");
-        if (in != stdin) fclose(in);
+    if (file_name == NULL) {
+        simulation_config_print_usage(argv[0]);
         return 1;
     }
 
-    if (options.verbose)
-        vmm_print_address_layout(&cfg, stdout);
+    config.file_name = (char *)file_name;
+    MemoryConfig memory_config = memory_config_create(config.page_size, config.physical_memory_size);
+    MemoryManager manager = memory_manager_create(&memory_config, config.policy);
 
-    unsigned long errors = commands_run(vm, in, options.quiet);
+    Instruction *instructions = NULL;
+    size_t instruction_count = 0;
+    if (!sim_load_program(file_name, &instructions, &instruction_count)) {
+        memory_manager_destroy(&manager);
+        return 1;
+    }
 
-    if (options.verbose)
-        vmm_dump_pagetable(vm, stdout);
-    vmm_print_stats(vm, stdout);
-    if (errors > 0)
-        fprintf(stderr, "\nSe encontraron %lu operaciones con error.\n", errors);
+    for (size_t i = 0; i < instruction_count; ++i) {
+        Instruction *current = &instructions[i];
+        switch (current->type) {
+            case SIM_INSTR_ALLOC:
+                memory_manager_allocate(&manager, current->operand);
+                break;
+            case SIM_INSTR_WRITE:
+                memory_manager_write(&manager, current->operand, current->value);
+                break;
+            case SIM_INSTR_READ:
+                memory_manager_read(&manager, current->operand);
+                break;
+            case SIM_INSTR_FREE:
+                memory_manager_free(&manager, current->operand);
+                break;
+            default:
+                fprintf(stderr, "Tipo de instruccion desconocido\n");
+                break;
+        }
+    }
 
-    vmm_destroy(vm);
-    if (in != stdin)
-        fclose(in);
+    print_summary(&manager, instruction_count);
+
+    sim_free_program(instructions);
+    memory_manager_destroy(&manager);
     return 0;
 }
